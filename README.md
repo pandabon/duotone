@@ -13,15 +13,17 @@ Set Light, Dark or System appearance for each Mac app separately.
 
 ## Install
 
-Requires macOS 26 or later, and Xcode to build.
+Requires macOS 26 or later on Apple silicon.
+
+Download the DMG from [Releases](https://github.com/pandabon/duotone/releases) and drag Duotone to Applications. The app isn't notarized, so try to open it once, then choose **Open Anyway** in System Settings > Privacy & Security.
+
+To build from source, you need Xcode:
 
 ```sh
 git clone https://github.com/pandabon/duotone.git
 cd duotone
 scripts/build.sh --open
 ```
-
-This creates `build/Duotone.app`. To open a copy someone else built, try to open it once, then choose **Open Anyway** in System Settings > Privacy & Security.
 
 Run tests with `swift test`.
 

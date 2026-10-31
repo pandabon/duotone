@@ -1,5 +1,5 @@
 #!/bin/zsh
-# Builds a universal Duotone.app into ./build and signs it. Usage: scripts/build.sh [--open]
+# Builds an Apple silicon Duotone.app into ./build and signs it. Usage: scripts/build.sh [--open]
 #
 # SIGN_IDENTITY picks the codesign identity and defaults to "-" (ad hoc). An ad-hoc build runs
 # on the Mac that made it; to hand it to others, sign with a Developer ID identity.
@@ -11,9 +11,12 @@ if [[ -z "${DEVELOPER_DIR:-}" && -d /Applications/Xcode.app ]]; then
   export DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer
 fi
 
-ARCHS=(--arch arm64 --arch x86_64)
-swift build -c release $ARCHS
-BIN="$(swift build -c release $ARCHS --show-bin-path)/Duotone"
+# Apple silicon only: Xcode deprecates x86_64 at this deployment target.
+ARCHS=(--arch arm64)
+# SwiftPM keeps debug info in release builds, and that records the builder's absolute paths.
+NODEBUG=(-debug-info-format none)
+swift build -c release $ARCHS $NODEBUG
+BIN="$(swift build -c release $ARCHS $NODEBUG --show-bin-path)/Duotone"
 
 APP=build/Duotone.app
 RES="$APP/Contents/Resources"
