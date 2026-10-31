@@ -15,7 +15,10 @@ Set Light, Dark or System appearance for each Mac app separately.
 
 Requires macOS 26 or later on Apple silicon.
 
-Download the DMG from [Releases](https://github.com/pandabon/duotone/releases) and drag Duotone to Applications. The app isn't notarized, so try to open it once, then choose **Open Anyway** in System Settings > Privacy & Security.
+1. Download the [latest DMG](https://github.com/pandabon/duotone/releases/latest).
+2. Open it and drag Duotone to Applications.
+3. Open Duotone. macOS blocks it the first time because it isn't notarized.
+4. Go to System Settings > Privacy & Security and choose **Open Anyway**.
 
 To build from source, you need Xcode:
 
