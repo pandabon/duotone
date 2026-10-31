@@ -54,6 +54,8 @@ struct ContentView: View {
   @State private var notice: Notice?
   @AppStorage("viewMode") private var viewMode = ViewMode.list
   @AppStorage("compactBars") private var compactBars = false
+  @AppStorage("didChooseLayout") private var didChooseLayout = false
+  @State private var showLayoutChoice = false
   @State private var typeSelect = TypeSelect()
   @State private var typeTarget: BundleIdentifier?
   @State private var typeReset: Task<Void, Never>?
@@ -96,6 +98,15 @@ struct ContentView: View {
       }
     }
     .dialogSuppressionToggle(isSuppressed: $suppressDialog)
+    // In the window, not a sheet, so ⌘Q and window close are never blocked. Only built while shown.
+    .overlay {
+      if showLayoutChoice {
+        LayoutChoiceOverlay {
+          didChooseLayout = true  // the only place this is written
+          showLayoutChoice = false
+        }
+      }
+    }
     .fileExporter(
       isPresented: $windowState.isExporting,
       document: PlainTextDocument(text: windowState.isExporting ? library.exportText() : ""),
@@ -241,6 +252,8 @@ struct ContentView: View {
     Launch.logger.info(
       "scan without sandboxed preferences: \(list.count, privacy: .public) apps in \(Launch.milliseconds(list.duration), format: .fixed(precision: 1), privacy: .public) ms")
     Launch.mark("first list ready")
+    // After the list exists, so the choice never delays loading.
+    if !didChooseLayout { showLayoutChoice = true }
     let resolved = await library.resolveSandboxed()
     Launch.logger.info(
       "resolved \(resolved.count, privacy: .public) sandboxed apps in \(Launch.milliseconds(resolved.duration), format: .fixed(precision: 1), privacy: .public) ms")

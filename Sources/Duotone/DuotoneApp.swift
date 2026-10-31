@@ -5,6 +5,10 @@ import SwiftUI
 final class AppDelegate: NSObject, NSApplicationDelegate {
   /// `.task` starting is not first paint; the occlusion state turning visible is when the window
   /// is actually on screen, and it also fires when the app was launched without activating.
+  func applicationWillFinishLaunching(_ notification: Notification) {
+    AppAppearance.applyStored()
+  }
+
   func applicationDidFinishLaunching(_ notification: Notification) {
     Launch.mark("did finish launching")
     _ = NotificationCenter.default.addObserver(
@@ -64,5 +68,6 @@ struct DuotoneApp: App {
           .keyboardShortcut("r")
       }
     }
+    Settings { SettingsView() }
   }
 }

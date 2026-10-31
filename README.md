@@ -51,6 +51,7 @@ Duotone makes no network requests.
 | ⌘1 / ⌘2 | Grid / list view |
 | ⌘3 | Compact mode |
 | ⌘R | Refresh |
+| ⌘, | Settings |
 
 ## Credits
 
